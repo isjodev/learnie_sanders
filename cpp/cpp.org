@@ -1,0 +1,863 @@
+#+title: CPP
+* Basics
+** statements and structure
+*** introduction
+*** statements
++ a statement is a type of instruction that causes the program
+  to perform some action.
++ statements are the smallest independent unit of computation in C++
+*** functions and the main function
++ a function is a collection of statements that are executed sequentially
++ programs typically terminate after the last statement inside function
+  main has been executed
++ the name of a function or object, type, template, etc... is
+  called its identifier
+*** dissecting hello world
+#+BEGIN_SRC cpp
+#include <iostream>
+
+int main() {
+    std::cout << "Hello world!";
+    return 0;
+}
+#+END_SRC
+
+1. preprocessor directive indicates that we would like to use the contents
+   of the iostream library, which is part of the C++ standard library that
+   allows us to read and write text from/to the console.
+2. blank and ignored by the compiler
+3. tells the compiler that we define a function whose name is main.
+   every c++ program must have a main function or it will fail to link.
+4. everything between the opening curly braces on line 4 and the
+   closing brace on line 7 is considered part of the main function.
+   this is called the function body.
+5. the first statement within function main is the first statement which
+   will execute when we run our program. std::cout and the <<
+   operator allow us to display information on the console.
+6. return statement. when an executable program finishes running, the
+   program sends a value back to the operating system in order to indicate
+   whether it ran successfuly or not.
+*** syntax and syntax errors
++ look out for 'em my guy...
+** comments
+*** comments
++ a comment is a programmer-readable note that is inserted directly into
+  the source code of the program. comments are ignored by the compiler and
+  are for the programmers use only.
+
+*** single-line comments
++ the =//= symbol begins a single-line comment, which tells the compiler
+  to ignore everything from the =//= symbol to the end of the line.
+
+#+BEGIN_SRC cpp
+std::cout << "Hello World!\n";                  // std::cout lives in the
+                                                // iostream libary
+std::cout << "It is very nice to meet you!\n";  // this is easier to read
+std::cout << "Yeah!\n";                         // don't you think so?
+#+END_SRC
+
+#+RESULTS:
+
++ single-line commends are often placed above the line it is commenting
+#+BEGIN_SRC cpp
+// std::cout lives in the iostream library
+std::cout << "Hello world!\n";
+
+// this is much easier to read
+std::cout << "It is very nice to meet you!\n";
+
+// don't you think so?
+std::cout << "Yeah!\n";
+#+END_SRC
+
+*** multi-line comments
++ =/*= and =*/= pair of symbols denotes a c-style multi-line comment.
+#+BEGIN_SRC cpp
+/* This is a multiline comment.
+   This line will be ignored.
+   So will this one. */
+#+END_SRC
+
+*** proper use of comments
++ comments should be used for three things: first, for a given library,
+  program, or function, comments are best used to describe what the
+  library, program, or function does. These are typically placed at the
+  top of the file or library, or immediately preceding the function.
+#+BEGIN_SRC cpp
+// calculate the student's final grade based on their scores
+// use newtons method to approcimate the root of a given equation
+// generate a random item based on rarity, level, and weight factor
+/* To calculate the final grade, we sum all the weighted midterm and
+ * and then divide by...
+#+END_SRC
++ comments within a library, program, or function can be used to describe
+  how the code is going to accomplish its goal.
++ comments should be written in a way that makes sense to someone who has
+  no idea what the code does. You or someone else will thank you later for
+  writing down what, how, and why of your code in human languages.
+** objects and variables
+*** data and values
++ data is the stuff
++ a single piece of data is called a value
+** variable assignment and initialization
+*** variable assignment
++ after a variable has been defined you can give it a value using the = operator
+#+BEGIN_SRC cpp
+int width;
+width = 5;
+std::cout << width;
+
+int a = 5, b = 6;       // copy initialization
+int c(7), d(8);         // direct intialization
+int e{9}, f{10};        // direct brace initialization
+int g = {9}, h = {10};  // copy brace initialization
+int i{}, j{};           // value initialization
+#+END_SRC
+*** unused initialized variable warnings
++ modern compilers will typically generate warnings if a variable is initialized
+  but not used.
+*** the [[maybe_unused]] attribute
++ c++17 introduces the [[maybe_unused]] attribute which allows use to tell the
+  compiler that we're okay with a variable being unused. The compiler
+  will not generate unused variable warnings for such variables.
+#+BEGIN_SRC cpp
+int main() {
+    [[maybe_unused]] double pi {3.14159};
+    [[maybe_unused]] double gravity {9.8}; // m/s**2
+    [[maybe_unused]] double phi {1.61803};
+}
+#+END_SRC
+** introduction to iostream: cout, cin, endl
+*** the input/output library
++ part of the c++ standard library that deals with basic input and output.
+  We'll use functionality in the library to get input from the keyboard
+  and output data to the console.
+*** std::cout
++ std::cout allows us to send data to the console to be printed as text
+  #+BEGIN_SRC cpp
+  #include <iostream>
+  int main() {
+      std::cout << "Hello, world!";
+      return 0;
+  }
+  #+END_SRC
+
+*** std::endl
+#+BEGIN_SRC cpp
+std::cout << "Hi!" << std::endl // std::endl moves the cursor to the next line
+#+END_SRC
+*** std::cout is buffered
+*** std::endl vs '\n'
++ std::endl flushes the output buffer
+*** std::cin
++ read input from keyboard
+** uninititalized variables and undefined behavior
+*** unitialized variables
++ when a variable that is not initialized is given a memory address, the
+  default value is whatever value happens to be at that address already
++ using the value from an uninitialized variable is undefined behavior
+*** implementation-defined behavior
++ implementation-defined behavior means the behavior of some syntax
+  is left up to the compiler to define.
+** keywords and naming identitfiers
+*** keywords
+| alignas   | const_cast   | int              | static_assert
+| alignof   | continue     | long             | static_cast
+| and       | co_await     | mutable          | struct
+| and_eq    | co_return    | namespace        | switch
+| asm       | co_yield     | new              | template
+| auto      | decltype     | noexcept         | this
+| bitant    | default      | not              | thread_local
+| bitor     | delete       | not_eq           | throw
+| bool      | do           | nullptr          | true
+| break     | double       | operator         | try
+| case      | dynamic_cast | or               | typedef
+| catch     | else         | or_eq            | typeid
+| char      | enum         | private          | typename
+| char8_t   | explicit     | protected        | union
+| char16_t  | export       | public           | unsigned
+| char32_t  | extern       | register         | using
+| class     | false        | reinterpret_cast | virtual
+| compl     | float        | requires         | void
+| concept   | for          | return           | volatile
+| const     | friend       | short            | wchar_t
+| consteval | goto         | signed           | while
+| constexpr | if           | sizeof           | xor
+| constinit | inline       | static           | xor_eq
+*** identifier naming rules
+=identifier= the name of a variable or function or type or other kind of item
++ C++ gives you a lot of flexibility to name identifiers as you wish, but there
+  are a few rules that must be followed
+  + the identifier cannot be a keyword
+  + the identifier can only be composed of letters, numbers, and
+    the underscore character. the name cannot contain symbols,
+    or whitespace
+  + the identifier must begin with a letter or an underscore
+  + C++ is case sensitive
+*** identifier naming best practices
++ variable names should begin with a lowercase letter. if the variable name is
+  a single word or an acronym, the whole thing should be written in lowercase
+  letters
++ most often, functions are started with a lower case letter.
++ identifier names that start with a capital letter are typically used for
+  user-defined types such as structs, classes, and enumerations.
++ if a variable or function name is multi-work, there are two common
+  conventions: words separated  by underscores (snake_case) or intercapped
+  (camelCase)
++ avoid starting your identifier names with an underscore - these are
+  typically reserved for  OS, compiler, or library use.
++ identifiers should make clear what the value they are holding means.
+| variable name      | good/bad | explanation                                  |
+| -------------------+----------+----------------------------------------------|
+| int ccount         | Bad      | What does the c before "count" stand for?    |
+| int customerCount  | Good     | Clear what we're counting                    |
+| int i              | either   | okay if use is trivial, bad otherwise        |
+| int totalScore     | either   | okay if there's only one thing being scored  |
+| int _count         | bad      | do not start names with underscores          |
+| int data           | bad      | what kind of data                            |
+| int time           | bad      | is this in seconds, minutes, or hours?       |
+| int minutesElapsed | good     | descriptive                                  |
+| int value1, value2 | bad      | can be hard to differentiate between the two |
+| int numApples      | good     | descriptive                                  |
+| int monstersKilled | good     | descriptive                                  |
+| int x, y           | either   | okay if use is trivial, bad otherwise        |
+** whitespace and formatting
++ whitespace are characters that are used for formatting purposes
++ some language elements must be whitespace-separated
++ quoted text taxes the amount of whitespace literally
++ use whitepsace to format code
+** literals and operators
+*** literals
+#+BEGIN_SRC cpp
+#include <iostream>
+
+int main() {
+    // print the value of a literal
+    std::cout << 5 << '\n';
+
+    // print the value of a variable
+    int x{5};
+    std::cout << x << '\n';
+
+    return 0;
+}
+#+END_SRC
+*** operators
++ an =operation= is a process involving zero or more input values that produces
+  a new value. the specific operation to be performed is denoted by a
+  symbol called an operator.
+*** chaining operators
++ operators can be chained together such that the output of one operator
+  can be used as the input for another operator.
+*** return values and side effects
++ most operators in c++ use their operands to calculate a return value.
++ some operators have additional behaviors
+** expressions
+*** expressions
++ an expression is a sequence of literals, variables, operators, and function
+  calls that calculates a single value. the process of executing an expression
+  is called evaluation, and the single value produced is called the result
+  of the expression.
+** developing your first program
+*** multiply by two
++ let's create a program that asks the user to enter an integer, waits for them
+  to input an integer, then tells them what 2 times that number is.
+  #+RESULTS:
+  : Enter an integer: 4
+  : Double that number is: 8
+  #+BEGIN_SRC cpp
+#include <iostream>
+
+int main() {
+    std::cout << "Enter an integer: ";
+
+    int num{};
+    std::cin >> num;
+
+    std::cout << "Double that number is: " << num * 3 << '\n';
+    return 0;
+}
+  #+END_SRC
+** summary
++ a =statement= is a type of instruction that causes the program to perform
+  some action. statements are often terminated by a semicolon.
++ a =function= is a collection of statements that execute sequentially. every
+  c++ program must include a special function name main. execution
+  starts at the top of the main function
++ the name of a function or object, type, template, etc... is called
+  its =identifier=
++ the rules that govern how elements of the c++ language are constructed
+  is called its =syntax=. a =syntax error= occurs when you violate the
+  gramattical rules of the language
++ =comments= allow the programmer to leave nodes in the code. c++ supports
+  two types of comments: line commends start with a // and run to the end
+  of the line. block comments start with a /* and go to the paired */
+  symbol
++ =data= is any information that can be moved, processed, or stored by a
+  computer. a single piece of data is called a value.
++ a =variable= is a named piece of memory that we can use to store values.
+  in order to create a variable we use a statement called a =definition
+  statement=. when the program is run, each defined variable is
+  =instantiated= which means it is assigned a memory address.
++ a =data type= tells the compiler how to interpret a piece of data
+  into a meaningful value.
++ =copy assignment= can be used to assign an already created variable
+  a value
++ =initialization= can be used to give a variable a value at the point
+  of creation. the syntax used to initialize a vairable is
+  called an =initializer=
+| initialization type | example      | note                              |
+| default init        | int x;       | variable with indeterminate value |
+| copy init           | int x = 5;   |                                   |
+| direct init         | int x(5);    |                                   |
+| direct list init    | int x{5};    | narrowing conversions disallowed  |
+| copy list init      | int x = {5}; | narrowing conversions disallowed  |
+| value init          | int x{};     | performs zero initialization      |
++ =direct initialization= is sometimes called =parenthesis initialization=
+  and list initialization is sometimes called uniform initialization or
+  brace initialization. prefer brace initilization over the other
+  initialization forms and prefer initialization over assignment.
++ its better to define and initialize each variable on its own line
+  in a separate statement
++ std::cout and operator<< allow us to output an expression to the console
+  as text. stD::endl outputs a newline character, forcing the console
+  cursor to move to the next line. std::cin and operator>> allow us to
+  get a value from the keyboard.
++ a variable that has not been given a value is called an
+  =uninitialized variable=
+* Functions and Files
+** introduction to functions
+*** an example of a user defined function
+#+BEGIN_SRC cpp
+returnType functionName() {
+    // This is the function body
+}
+#+END_SRC
++ the first line is informally called the =function header=
+#+BEGIN_SRC cpp
+#include <iostream> // for std::cout
+
+// definition of user-defined function doPrint()
+void doPrint() {
+    std::cout << "In doPrint()\n";
+}
+
+// definition of function main()
+int main() {
+    std::cout << "Starting main()\n";
+    doPrint(); // Interrupt main() by making a function call to doPrint()
+    std::cout << "Ending main()\n";
+
+    return 0;
+}
+#+END_SRC
+#+RESULTS:
+: Starting main()
+: In doPrint()
+: Ending main()
+*** calling functions more than once
+#+BEGIN_SRC cpp
+#include <iostream> // for std::cout
+
+// definition of user-defined function doPrint()
+void doPrint() {
+    std::cout << "In doPrint()\n";
+}
+
+// definition of function main()
+int main() {
+    std::cout << "Starting main()\n";
+    doPrint(); // Interrupt main() by making a function call to doPrint()
+    doPrint(); // Interrupt main() by making a function call to doPrint()
+    std::cout << "Ending main()\n";
+
+    return 0;
+}
+#+END_SRC
+#+RESULTS:
+: Starting main()
+: In doPrint()
+: In doPrint()
+: Ending main()
+*** functions calling functions calling functions
+#+BEGIN_SRC cpp
+#include <iostream>
+
+void doB() {
+    std::cout << "In doB()\n";
+}
+
+void doA() {
+    std::cout << "Starting doA()\n";
+    doB();
+    std::cout << "Ending doA()\n";
+}
+
+int main() {
+    std::cout << "Starting main()\n";
+    doA();
+    std::cout << "Ending main()\n";
+    return 0;
+}
+#+END_SRC
+#+RESULTS:
+: Starting main()
+: Starting doA()
+: In doB()
+: Ending doA()
+: Ending main()
+*** nested functions are not supported
+** function return values
+*** return values
++ when you write a user-defined function you get to determine whether your
+  function will return a value back to the caller or not.
++ the function has to indicate what type of value will be returned
++ inside the function that will return a value we use a return statement
++ the value returned from a function is called the =return value=
++ when the return statement is executed, the function exits and the return
+  value is copied from the function block to the caller. this process
+  is called =return by value=
+#+BEGIN_SRC cpp
+#include <iostream>
+
+int getValueFromUser() {
+    std::cout << "Enter an integer: ";
+    int input{};
+    std::cin >> input;
+
+    return input;
+}
+
+int main() {
+    int num {getValueFromUser()};
+    std::cout << num << " doubled is: " << num * 2 << '\n';
+    return 0;
+}
+#+END_SRC
+*** a value returning function that does not return a value will produce undefined behavior
+*** function main will implicitly return 0 if no return statement is provided
+*** functions cal only return a single value
+*** the function author can decide what the return value means
+** void functions
+*** void return values
++ functions are not required to return a value back to the called. to
+  tell the compiler that a function does not return a value, a return
+  type of =void= is used
+  #+BEGIN_SRC cpp
+#include <iostream>
+
+void printHi() {
+    std::cout << "Hi" << '\n';
+}
+
+int main() {
+    printHi();
+    return 0;
+}
+  #+END_SRC
+*** void functions don't need a return statement
+*** void functions can't be used in expressions that require a value
+*** returning a value from a void function is a compile error
+** function parameters and arguments
+*** function parameters and arguments
++ a =function parameter= is a variable used in the header of a function
++ function parameters work almost identially to variables defined
+  inside the function, but they are initialized with a value provided
+  by the caller of the function.
++ an =argument= is a value that is passed from the caller to the function
+  when a function call is made
+*** how parameters and arguments work together
++ when a function is called all of the parameters of the function are
+  created as variables, and the value of each argument is copied into the
+  matching parameter using copy initialization. this process is called
+  =pass by value=. function parameters sthat utilize pass by value are
+  called =value parameters=
+#+BEGIN_SRC cpp
+#include <iostream>
+
+int getValueFromUser() {
+    std::cout << "Enter an integer: ";
+    int input{};
+    std::cin >> input;
+
+    return input;
+}
+
+void printDouble(int value) {
+    std::cout << value << " doubled is: " << value * 2 << '\n';
+}
+
+int main() {
+    int num {getValueFromUseR()};
+    printDouble(num);
+    return 0;
+}
+#+END_SRC
+** local scope
+*** local variables
++ variables defined inside the body of a function are called
+  =local variables=
+** why functions are useful
+*** why use functions
++ organization
++ reusability
++ testing
++ extensibility
++ abstraction
+*** effectively using functions
++ groups of statements that appear more than once in a program should
+  generally be made into a function. for example, if we're reading input
+  from the user multiple times in the same way, that's a great candidate
+  for a function. it we output something in the same way in multiple
+  places, that is also a great candidate for a function.
++ code that has a well defined set of inputs and outputs is a good
+  candidate for a function.
++ a function should generally perform one task
++ when a function becomes too long, too complicated, or hard to
+  understand, it can be split into multiple usb-functions. this is called
+  refactoring
+** forward declarations and definitions
+** programs with multiple code files
+** naming collisions and an introduction to namespaces
+** preprocessor
+** header files
+** header guards
+** wow to design your first programs
+** summary and quiz
+* Debugging
+** syntax and semantic errors
+*** syntax and semantic errors
++ a =syntax error= occurs when you write a statement that is not valid according
+  to the grammer of the c++ language
+#+BEGIN_SRC cpp
+#include <iostream>
+
+int main() {
+    // invalid operator, extraneous semicolon, undeclared variable
+    std::cout < "Hi there"; << x << '\n';
+    return 0 // missing semicolon
+}
+#+END_SRC
++ the compiler will generally catch syntax errors and generate
+  warnings or errors
+
+** the debugging process
+** a strategy for debugging
+** basic debugging tactics
+** more debugging tactics
+** using an integrated debugger: stepping
+** using an integrated debugger: running and breakpoints
+** using an integrated debugger: watching variables
+** wsing an integrated debugger: che call ctack
+** finding issues before they become problems
+** summary and quiz
+* Fundamental Data Types
+** introduction
+** void
+** object sizes and sizeof
+** signed integers
+** unsigned integers
+** fixed-width integers and size_t
+** scientific notation
+** floating point numbers
+** boolean values
+** if statements
+** chars
+** type conversion and static_cast
+** summary
+* Constants and Strings
+** constants
+** literatls
+** number systems
+** const expressions and compile-time optimizations
+** constexpr variables
+** conditional operator
+** inline functions and variables
+** constexpr and consteval functions
+** introduction to std::string
+** introduction to std::string_view
+** std::string_view
+** summary
+* Operators
+** operator precedence and associativity
+** arithmetic operators
+** remainder and exponentiation
+** incrememnt/decrement operators
+** comma operator
+** relational operators and floating-point comparisons
+** logical operators
+** summary and quiz
+* Bit Manipulation
+** bit flags and bit manipulations via std::bitset
+** bitwise operators
+** bit manipulation with withwise operators and bit masks
+** converting integers between binary and decimal representation
+* Scope, Duration, and Linkage
+** compound statements
+** user-defined namespaces and the scope resolution operator
+** local variables
+** introduction to global variables
+** variable shadowing
+** internal linkage
+** external linkage and variable forward declarations
+** why (non-const) global variables are evil
+** sharing global constants across multiple files (using inline variables)
+** static global variables
+** scope, duration, and linkage summary
+** using declarations and using directives
+** unnamed and inline namespaces
+** summary and quiz
+* Control Flow
+** introduction
+** if statements and blocks
+** common problems
+** constexpr if statements
+** switch statement basics
+** switch fallthrough and scoping
+** goto statements
+** loops and while statements
+** do while statements
+** for statements
+** break and continue
+** halts
+** introduction to random number generation
+** generating random numbers using mersenne twister
+** global random numbers
+** summary
+* Error Detection and Handling
+** testing
+** code coverage
+** common semantic errors
+** detecting and handling errors
+** std::cin and handling invalid input
+** assert and static_assert
+** summary
+* Type Conversion, Type Aliases, Type Deduction
+** implicit type conversion
+** floating point and integral promotion
+** numeric conversions
+** narrowing conversions, list initialization, constexpr initializers
+** arithmetic conversions
+** casting and static_cast
+** typedefs and type aliases
+** type defuction for objects using the auto keyword
+** typededuction for functions
+** summary
+* Function Overloading and Functions Templates
+** introduction
+** overload differentiation
+** resolution and ambiguous matches
+** deleting functions
+** default arguments
+** function templates
+** template instantiation
+** templates with multiple template types
+** non-type template parameters
+** summary
+* References and Pointers
+** introduction
+** value categories
+** lvalue references
+** lvalue references to const
+** pass by lvalue references
+** pass by const lvalue reference
+** pointers
+** null pointers
+** pointers and const
+** pass by address
+** pass by address (part 2)
+** return by ference and return by address
+** in and out parameters
+** type deduction with pointers references and const
+** summary
+* Enums and Structs
+** introduction
+** unscoped enumerations
+** unscoped enumeration input and output
+** scoped enumerations
+** structs, members, and member selection
+** struct aggregate initialization
+** default member initialization
+** passing and returning structs
+** miscellany
+** member selection with pointers and references
+** class templates
+** class template argument deduction with deduction guides
+** alias tempaltes
+** summary
+** using a language reference
+* Introduction to Classes
+** introduction to oop
+** introduction to classes
+** member functions
+** const class objects and const member functions
+** public and private member and access speficiers
+** access functions
+** member functions returning references to data members
+** the benefits of enacpsulation
+** introduction to constructors
+** constructor member initializer lists
+** default constructor and default arguments
+** delegating constructors
+** temporary class objects
+** introduction to the copy constructor
+** class initialization and copyo elision
+** converting constructors and the explicit keyword
+** summary
+* More on Classes
+** this pointer and member function chaining
+** classes and header files
+** nested types
+** introduction to destructors
+** class templates with member functions
+** static member variables
+** static member functions
+** friend non-member functions
+** friend classes and friend member functions
+** ref qualifiers
+** summary
+* Dynamic Arrays
+** containers and arrays
+** std::vector and list constructors
+** std::vector and the unsigned length and subscript problem
+** passing std::vector
+** returning std::vector, introduction to move semantics
+** arrays and loops
+** arrays, loops, and sign challenge solutions
+** range based for loops
+** array indexing and length using enumerators
+** std::vector resizing and capacity
+** std::vector and stack behavior
+** std::vector<bool>
+** summary
+* Fixed-size Arrays
+** std::array
+** std::array length and indexing
+** passing and returning std::array
+** std::array of class types and brace elision
+** arrays of references via std::reference_wrapper
+** std::array and enumerations
+** c-style arrays
+** c style array decay
+** pointer arithmetic and subscripting
+** c-style strings
+** c-style string symbolic constants
+** multidimensional c-style arrays
+** multidimensional std::array
+** summary
+* Iterators and Algorithms
+** selection sort
+** iterators
+** stdlib algorithms
+** testing
+* Dynamic Allocation
+** dynamic memory allocation with new and delete
+** dynamically allocating arrays
+** destructors
+** pointers to pointers and dynamic multidimensional arrays
+** void pointers
+* Functions
+** function pointers
+** the stack and the heap
+** recursion
+** command line arguments
+** ellipsis
+** lambdas
+** lambda captures
+** summary
+* Operator Overloading
+** introduction
+** arithmetic operators using friend functions
+** operators using normal functions
+** i/o operators
+** member functions
+** unary operators + - and !
+** comparison operators
+** increment and decremment operators
+** subscript operator
+** parenthesis operator
+** overloading typecasts
+** assignment operator
+** shallow vs deep copying
+** operators and function templates
+** summary and quiz
+** project
+* Move Semantics and Smart Pointers
+** smart pointers and move semantics
+** r-value references
+** move constructors and move assignment
+** std::move
+** std::unique_ptr
+** std::shared_ptr
+** circular dependency issues
+** summary and quiz
+* Object Relationships
+** obejct relationships
+** composition
+** aggregation
+** association
+** dependencies
+** container classes
+** std::initializer_list
+** summary
+* Inheritance
+** introduction
+** basic inheritance
+** order of construction of derived calsses
+** constructors and initialization of derived classes
+** inheritance and access specifiers
+** adding new functionalist to a derived class
+** calling inherited functions and overriding behavior
+** hiding inherited functionalist
+** multiple inheritance
+** summary
+* Virtual Functions
+** pointers and references to the base class of derived objects
+** virtual functions and polymorphism
+** override and final specifiers, covariant return types
+** virtual destructors, virtual assignment, overriding virtualization
+** early binding and late binding
+** the virtual table
+** pure virtual functions, abstract base classes, and interface classes
+** virtual base classes
+** obeject slicing
+** dynamic casting
+** printing inherited classes
+** summary
+* Templates and Classes
+** template classes
+** template non-type parameters
+** function template specialization
+** class template specialization
+** partial template specialization
+** partial template specialization for poitners
+** summary
+* Exceptions
+** the need for exceptions
+** basic exception handing
+** exceptions, functions, and stack-unwinding
+** uncaught exceptions and catch-all handlers
+** exceptions, classes, and inheritance
+** rethrowing exceptions
+** function type blocks
+** exception dangers and downsides
+** exception specifications and noexcept
+** std::move_if_noexcept
+** summary
+* IO
+** iostreams
+** input with istream
+** output with ostream and ios
+** stream classes for strings
+** stream states and input validation
+** basic file io
+** random file io
+* Miscellaneous Subjects
+** static and dynamic libraries
+** faq
+* C++ Updates
+** C++11
+** C++14
+** C++17
+** C++20
+** C++23

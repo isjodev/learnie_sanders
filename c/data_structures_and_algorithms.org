@@ -1,0 +1,23 @@
+#+title: Data Structures and Algorithms
+
+* Foundations
+** Introduction
+** The Role of Algorithms in Computing
+*** Algorithms
+*** Algorithms as a Technology
+** Getting Started
+*** Insertion Sort
+*** Analyzing Algorithms
+*** Designing Algorithms
+** Characterizing Running Times
+*** Notation
+*** Asymtotic Notation: Formal Definitions
+*** Standard Notations and Common Functions
+** Divide-and-Conquer
+** Probablistic Analysis and Randomized Algorithms
+* Sorting and Order Statistics
+** Introduction
+** Heapsort
+** Quicksort
+** Sorting in Linear Time
+** Medians and Order Statistics
